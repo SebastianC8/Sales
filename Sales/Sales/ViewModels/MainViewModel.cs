@@ -3,7 +3,7 @@
     public class MainViewModel
     {
 
-        public ProductsViewModel Products;
+        public ProductsViewModel Products { get; set; }
 
         public MainViewModel()
         {

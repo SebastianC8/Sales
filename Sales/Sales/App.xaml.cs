@@ -1,17 +1,17 @@
-﻿using Sales.Views;
-using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace Sales
 {
+    using Views;
+
     public partial class App : Application
     {
         public App()
         {
             InitializeComponent();
+
             /* Se establece página de inicio para la aplicación */
-            MainPage = new ProductsPage();
+            MainPage = new NavigationPage(new ProductsPage());
         }
 
         protected override void OnStart()

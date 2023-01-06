@@ -135,5 +135,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {952F1379-1FBE-4214-A9C0-6733DF41E219}
+		RESX_PrefixTranslations = False
 	EndGlobalSection
 EndGlobal

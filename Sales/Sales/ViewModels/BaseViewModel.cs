@@ -1,5 +1,6 @@
 ﻿namespace Sales.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -21,7 +22,7 @@
             }
 
             backingField = value;
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
         }
     }
 }

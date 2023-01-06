@@ -1,15 +1,47 @@
 ﻿namespace Sales.Services
 {
+    using Newtonsoft.Json;
+    using Plugin.Connectivity;
+    using Sales.Common.Models;
+    using Sales.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
-    using Sales.Common.Models;
 
     public class ApiService
-    {
-        public ApiService() { }
+    { 
+        public async Task<Response> CheckConnection()
+        {
+            /* Verifica si hay conexión a internet*/
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = Languages.TurnOnInternet
+                };
+            }
+
+            /* Realiza una conexión a internet */
+            var isReachable = await CrossConnectivity.Current.IsRemoteReachable("google.com");
+
+            /* Verifica si se puede establecer una conexión de internet */
+            if (!isReachable)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = Languages.InternetConnection
+                };
+            }
+
+            return new Response
+            {
+                IsSuccess = true,
+                Message = "Ok"
+            };
+        }
 
         public async Task<Response> GetList<T>(string urlBase, string prefix, string controller)
         {
@@ -17,7 +49,7 @@
             {
                 var httpClient = new HttpClient();
                 httpClient.BaseAddress = new Uri(urlBase);
-                
+
                 var url = $"{prefix}{controller}";
                 var response = await httpClient.GetAsync(url);
                 var result = await response.Content.ReadAsStringAsync();
