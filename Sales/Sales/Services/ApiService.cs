@@ -7,6 +7,7 @@
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
+    using System.Text;
     using System.Threading.Tasks;
 
     public class ApiService
@@ -69,6 +70,81 @@
                 {
                     IsSuccess = true,
                     Result = list
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<Response> Post<T>(string urlBase, string prefix, string controller, T model)
+        {
+            try
+            {
+                var request = JsonConvert.SerializeObject(model);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(urlBase);
+
+                var url = $"{prefix}{controller}";
+                var response = await httpClient.PostAsync(url, content);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                var obj = JsonConvert.DeserializeObject<T>(result);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = obj
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<Response> Delete(string urlBase, string prefix, string controller, int id)
+        {
+            try
+            {
+                var httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(urlBase);
+
+                var url = $"{prefix}{controller}/{id}";
+                var response = await httpClient.DeleteAsync(url);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true
                 };
             }
             catch (Exception ex)

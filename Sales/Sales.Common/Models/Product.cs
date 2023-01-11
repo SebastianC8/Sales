@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Product
     {
@@ -31,6 +32,25 @@
 
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
+
+        /* La data annotation NotMapped excluye una propiedad del mapeo del modelo en la base de datos */
+        [NotMapped]
+        public byte[] ImageArray { get; set; }
+
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.ImagePath))
+                {
+                    return "noproduct";
+                }
+
+                return $"https://salesbackendcorrales.azurewebsites.net/{this.ImagePath.Substring(1)}";
+
+            }
+
+        }
 
         public override string ToString()
         {

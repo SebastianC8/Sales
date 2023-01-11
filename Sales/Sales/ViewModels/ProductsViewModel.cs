@@ -7,6 +7,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows.Input;
     using Xamarin.Forms;
 
@@ -14,13 +15,16 @@
     {
 
         #region Atributtes
-        private ObservableCollection<Product> products;
+        private ObservableCollection<ProductItemViewModel> products;
         private ApiService apiService;
         private bool isRefreshing;
         #endregion
 
         #region Properties
-        public ObservableCollection<Product> Products
+
+        public List<Product> MyProducts { get; set; }
+
+        public ObservableCollection<ProductItemViewModel> Products
         {
             get { return this.products; }
             set { this.SetValue(ref this.products, value); }
@@ -36,21 +40,27 @@
         #region Constructors
         public ProductsViewModel()
         {
+            instance = this;
             this.apiService = new ApiService();
             this.LoadProducts();
         }
         #endregion
 
-        #region Commands
-        public ICommand RefreshCommand
+        #region Singleton
+        private static ProductsViewModel instance;
+
+        public static ProductsViewModel GetInstance()
         {
-            get
+            if (instance == null)
             {
-                return new RelayCommand(LoadProducts);
+                return new ProductsViewModel();
             }
+
+            return instance;
         }
         #endregion
 
+        #region Methods
         private async void LoadProducts()
         {
             try
@@ -79,9 +89,10 @@
                     return;
                 }
 
-                var list = (List<Product>)response.Result;
-                this.Products = new ObservableCollection<Product>(list);
+                this.MyProducts = (List<Product>)response.Result;
+                this.RefreshList();
                 this.IsRefreshing = false;
+
             }
             catch (Exception ex)
             {
@@ -89,6 +100,36 @@
             }
 
         }
+
+        public void RefreshList()
+        {
+            var listProductItemViewModel = this.MyProducts.Select(product => new ProductItemViewModel
+            {
+                Description = product.Description,
+                ImageArray = product.ImageArray,
+                ImagePath = product.ImagePath,
+                IsAvailable = product.IsAvailable,
+                Price = product.Price,
+                ProductId = product.ProductId,
+                PublishOn = product.PublishOn,
+                Remarks = product.Remarks
+            });
+
+            this.Products = new ObservableCollection<ProductItemViewModel>(
+                listProductItemViewModel.OrderBy(product => product.Description)
+            );
+        }
+        #endregion
+
+        #region Commands
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                return new RelayCommand(LoadProducts);
+            }
+        }
+        #endregion
 
     }
 }
