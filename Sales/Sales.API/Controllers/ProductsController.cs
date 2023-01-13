@@ -8,7 +8,6 @@
     using System.Data.Entity.Infrastructure;
     using System.IO;
     using System.Linq;
-    using System.Net;
     using System.Threading.Tasks;
     using System.Web.Http;
     using System.Web.Http.Description;
@@ -51,6 +50,21 @@
                 return BadRequest();
             }
 
+            if (product.ImageArray != null && product.ImageArray.Length > 0)
+            {
+                var stream = new MemoryStream(product.ImageArray);
+                var guid = Guid.NewGuid().ToString();
+                var file = $"{guid}.jpg";
+                var folder = "~/Content/Products";
+                var fullpath = $"{folder}/{file}";
+                var response = FilesHelper.UploadPhoto(stream, folder, file);
+
+                if (response)
+                {
+                    product.ImagePath = fullpath;
+                }
+            }
+
             this.db.Entry(product).State = EntityState.Modified;
 
             try
@@ -69,7 +83,7 @@
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(product);
         }
 
         // POST: api/Products
@@ -81,7 +95,7 @@
                 return BadRequest(ModelState);
             }
 
-            if (product.ImageArray != null & product.ImageArray.Length > 0)
+            if (product.ImageArray != null && product.ImageArray.Length > 0)
             {
                 var stream = new MemoryStream(product.ImageArray);
                 var guid = Guid.NewGuid().ToString();
@@ -97,7 +111,6 @@
             }
 
             /* Campos que no vienen desde el móvil */
-            
             product.IsAvailable = true;
             /* Hora universal (UTC Londrés) */
             product.PublishOn = DateTime.Now.ToUniversalTime();
