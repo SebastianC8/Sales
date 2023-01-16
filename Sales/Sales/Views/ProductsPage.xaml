@@ -17,6 +17,12 @@
             BindingContext="{Binding Products}"
             Padding="5">
 
+            <SearchBar
+                Placeholder="Buscar producto..."
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Filter}">
+            </SearchBar>
+
             <ListView
                 HasUnevenRows="True"
                 IsRefreshing="{Binding IsRefreshing}"

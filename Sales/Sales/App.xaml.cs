@@ -2,6 +2,7 @@
 
 namespace Sales
 {
+    using Sales.ViewModels;
     using Views;
 
     public partial class App : Application
@@ -11,7 +12,8 @@ namespace Sales
             InitializeComponent();
 
             /* Se establece página de inicio para la aplicación */
-            MainPage = new NavigationPage(new ProductsPage());
+            MainViewModel.GetInstance().Login = new LoginViewModel();
+            MainPage = new LoginPage();
         }
 
         protected override void OnStart()

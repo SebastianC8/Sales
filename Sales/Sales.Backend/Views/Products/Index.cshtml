@@ -47,9 +47,9 @@
             @Html.DisplayFor(modelItem => item.PublishOn)
         </td>
         <td>
-            @if (!String.IsNullOrEmpty(item.ImagePath))
+            @if (!String.IsNullOrEmpty(item.ImageFullPath))
                 {
-                    <img src="@Url.Content(item.ImagePath)" style="width: 100px; height: 150px; max-width: 100%"/>
+                    <img src="@Url.Content(item.ImageFullPath)" style="width: 100px; height: 150px; max-width: 100%"/>
                 }
         </td>
         <td>
