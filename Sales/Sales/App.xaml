@@ -17,6 +17,7 @@
             <x:String x:Key="UrlAPI">https://salesbackendcorrales.azurewebsites.net</x:String>
             <x:String x:Key="UrlPrefix">/api</x:String>
             <x:String x:Key="UrlProductsController">/Products</x:String>
+            <x:String x:Key="UrlUsersController">/Users</x:String>
             
 
         </ResourceDictionary>

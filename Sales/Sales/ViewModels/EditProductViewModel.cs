@@ -134,7 +134,7 @@ namespace Sales.ViewModels
             var controller = Application.Current.Resources["UrlProductsController"].ToString();
 
             /* Se realiza petición HTTP */
-            var response = await this.apiService.Put(url, prefix, controller, this.Product, this.Product.ProductId);
+            var response = await this.apiService.Put(url, prefix, controller, this.Product, this.Product.ProductId, Settings.TokenType, Settings.AccessToken);
 
             if (!response.IsSuccess)
             {
@@ -168,7 +168,7 @@ namespace Sales.ViewModels
             /* Se desapila la vista actual y regresamos a ProductsPage */
             this.IsRunning = false;
             this.IsEnabled = true;
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await App.Navigator.PopAsync();
 
         }
 
@@ -257,7 +257,7 @@ namespace Sales.ViewModels
             var controller = Application.Current.Resources["UrlProductsController"].ToString();
 
             /* Se realiza petición HTTP */
-            var response = await this.apiService.Delete(url, prefix, controller, this.Product.ProductId);
+            var response = await this.apiService.Delete(url, prefix, controller, this.Product.ProductId, Settings.TokenType, Settings.AccessToken);
 
             if (!response.IsSuccess)
             {
@@ -286,7 +286,7 @@ namespace Sales.ViewModels
             this.IsRunning = true;
             this.IsEnabled = false;
 
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await App.Navigator.PopAsync();
         }
         #endregion
 

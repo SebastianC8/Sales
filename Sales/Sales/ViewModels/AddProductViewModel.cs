@@ -152,7 +152,7 @@
             var controller = Application.Current.Resources["UrlProductsController"].ToString();
 
             /* Se realiza petición HTTP */
-            var response = await this.apiService.Post(url, prefix, controller, product);
+            var response = await this.apiService.Post(url, prefix, controller, product, Settings.TokenType, Settings.AccessToken);
 
             if (!response.IsSuccess)
             {
@@ -179,7 +179,7 @@
             /* Se desapila la vista actual y regresamos a ProductsPage */
             this.IsRunning = false;
             this.IsEnabled = true;
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await App.Navigator.PopAsync();
 
         }
 
