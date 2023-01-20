@@ -2,6 +2,8 @@
 {
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
+    using Newtonsoft.Json;
+    using Sales.Common.Models;
     using Sales.Helpers;
     using Sales.Services;
     using Sales.Views;
@@ -137,6 +139,17 @@
             Settings.TokenType = token.TokenType;
             Settings.AccessToken = token.AccessToken;
             Settings.IsRemembered = this.IsRemembered;
+
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlUsersController"].ToString();
+            var response = await this.apiService.GetUser(url, prefix, $"{controller}/GetUser", this.Email, token.TokenType, token.AccessToken);
+
+            if (response.IsSuccess)
+            {
+                var userASP = (MyUserASP)response.Result;
+                MainViewModel.GetInstance().UserASP = userASP;
+                Settings.UserASP = JsonConvert.SerializeObject(userASP);
+            }
 
             MainViewModel.GetInstance().Products = new ProductsViewModel();
             Application.Current.MainPage = new MasterPage();

@@ -263,7 +263,8 @@
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
-                    Languages.Accept);
+                    Languages.Accept
+                );
                 return;
             }
 

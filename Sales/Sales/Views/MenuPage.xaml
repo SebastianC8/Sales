@@ -17,6 +17,13 @@
                 HeightRequest="100"
                 WidthRequest="100"/>
 
+            <Label
+                FontAttributes="Bold"
+                FontSize="Large"
+                HorizontalOptions="Center"
+                Text="{Binding UserFullName}"
+                TextColor="White"/>
+
             <ListView
                 ItemsSource="{Binding Menu}"
                 HasUnevenRows="True">
