@@ -38,6 +38,21 @@
             }
         }
 
+        public string UserImageFullPath
+        {
+            get
+            {
+                var urlBase = Application.Current.Resources["UrlAPI"].ToString();
+
+                if (this.UserASP != null && this.UserASP.Claims != null && this.UserASP.Claims.Count > 2)
+                {
+                    return $"{urlBase}/{this.UserASP.Claims[2].ClaimValue.Substring(1)}";
+                }
+
+                return null;
+            }
+        }
+
         #endregion
 
         #region Constructors

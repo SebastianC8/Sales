@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using ImageCircle.Forms.Plugin.Droid;
 using Plugin.CurrentActivity;
 
 namespace Sales.Android
@@ -9,7 +10,7 @@ namespace Sales.Android
     [
         Activity(
             Label = "Sales",
-            Icon = "@mipmap/icon",
+            Icon = "@drawable/ic_launcher",
             Theme = "@style/MainTheme",
             MainLauncher = true,
             ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize
@@ -22,6 +23,8 @@ namespace Sales.Android
             base.OnCreate(savedInstanceState);
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
+
+            ImageCircleRenderer.Init();
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

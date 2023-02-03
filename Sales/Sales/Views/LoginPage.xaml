@@ -129,7 +129,7 @@
                         
                     </Image>
 
-                    <Image
+                    <!--<Image
                         Aspect="AspectFit"
                         HeightRequest="70"
                         Source="twitter_logo"
@@ -140,9 +140,9 @@
                             <TapGestureRecognizer Command="{Binding LoginTwitterCommand}"/>
                         </Image.GestureRecognizers>
 
-                    </Image>
+                    </Image>-->
 
-                    <!--<Image
+                    <Image
                         Aspect="AspectFit"
                         HeightRequest="70"
                         Source="instagram_logo"
@@ -153,8 +153,8 @@
                             <TapGestureRecognizer Command="{Binding LoginInstagramCommand}"/>
                         </Image.GestureRecognizers>
 
-                    </Image>-->
-                    
+                    </Image>
+
                 </StackLayout>
 
             </StackLayout>
